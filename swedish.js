@@ -1,26 +1,14 @@
-const reftext = document.querySelector(`#reftext`);
-const output = document.querySelector(`#output`);
-document.querySelector(`button`).addEventListener(`click`, copy);
-reftext.addEventListener(`keyup`, getRef);
-const select = (e) => e.target.select();
-document.querySelectorAll(`textarea`).forEach(tex => tex.addEventListener(`focus`, select));
-
-function getRef() {
-    const refval = reftext.value;
-    const errtext = `Sorry, it seems not to be the correct kind of reference for this tool.`;
-    output.value = refval.includes(`bildid:`) ? riksarkivet() :
-        refval.includes(`AID:`) ? arkivdigital() :
-            refval.includes(`kobok`) ? deadbook() :
-                errtext;
-}
-
+/**
+ * Riksarkivet Function
+ * @returns The reference string
+ */
 function riksarkivet() {
     const arr = reftext.value.split(`, bildid: `);
     const [part1, part2] = arr;
     const arr2 = part2.split(`,`);
     let [pageref, pagetext] = arr2;
 
-    if (typeof pagetext == 'undefined') {
+    if (typeof pagetext === 'undefined') {
         pagetext = ``;
     }
 
@@ -29,6 +17,10 @@ function riksarkivet() {
     return riksref;
 }
 
+/**
+ * Arkiv Digital Function
+ * @returns The reference string, including a link to riksarkivet
+ */
 function arkivdigital() {
     const newtext = reftext.value.replace(/"|'/g, "");
 
@@ -47,7 +39,7 @@ function arkivdigital() {
     const p41 = part4.split(`>`);
     const aidlink = ` | [${p41[0]} To page (paywall)]`;
 
-    var part5 = p41[3];
+    const part5 = p41[3];
     const nad1 = part5.split(`<`)[0];
 
     const nad = ` | [https://sok.riksarkivet.se/?postid=ArkisRef%20${nad1} Riksarkivet]`;
@@ -58,14 +50,40 @@ function arkivdigital() {
     return arkivref;
 }
 
+/**
+ * Dödbok Function
+ * @returns The reference string in a easier to view format.
+ */
 function deadbook() {
     const ref = reftext.value.replaceAll(`\n`, `\n::`);
     const deadref = `<ref>[https://sv.wikipedia.org/wiki/Sveriges_d%C3%B6dbok SDB Sveriges d\u00F6dbok]\n::${ref}\n</ref>`;
     return deadref;
 }
 
+/**
+ * Copy function when button is pressed. Copies directly to clipboard
+ */
 function copy() {
     reftext.value = ``;
     output.select();
     navigator.clipboard.writeText(output.value);
 }
+
+/**
+ * Checks type of reference in input field and writes output reference.
+ */
+function getRef() {
+    const refval = reftext.value;
+    const errtext = `Sorry, it seems not to be the correct kind of reference for this tool.`;
+    output.value = refval.includes(`bildid:`) ? riksarkivet() :
+        refval.includes(`AID:`) ? arkivdigital() :
+            refval.includes(`kobok`) ? deadbook() :
+                errtext;
+}
+
+const reftext = document.querySelector(`#reftext`);
+const output = document.querySelector(`#output`);
+document.querySelector(`button`).addEventListener(`click`, copy);
+reftext.addEventListener(`keyup`, getRef);
+const select = (e) => e.target.select();
+document.querySelectorAll(`textarea`).forEach(tex => tex.addEventListener(`focus`, select));
