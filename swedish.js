@@ -1,3 +1,8 @@
+const reftext = document.querySelector(`#reftext`);
+const output = document.querySelector(`#output`);
+const select = (e) => e.target.select(); /** Selects textarea on focus*/
+document.querySelectorAll(`textarea`).forEach(tex => tex.addEventListener(`focus`, select));
+
 /**
  * Riksarkivet Function
  * @returns The reference string
@@ -81,9 +86,6 @@ function getRef() {
                 errtext;
 }
 
-const reftext = document.querySelector(`#reftext`);
-const output = document.querySelector(`#output`);
 document.querySelector(`button`).addEventListener(`click`, copy);
 reftext.addEventListener(`keyup`, getRef);
-const select = (e) => e.target.select();
-document.querySelectorAll(`textarea`).forEach(tex => tex.addEventListener(`focus`, select));
+
