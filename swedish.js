@@ -83,7 +83,7 @@ function getRef() {
   const errtext = `Sorry, it seems not to be the correct kind of reference for this tool.`;
   output.value = refval.includes(`bildid:`) ? riksarkivet() :
     refval.includes(`AID:`) ? arkivdigital() :
-      refval.includes(`kobok`) ? deadbook() :
+      refval.includes(`bokf`) ? deadbook() :
         errtext;
 }
 
