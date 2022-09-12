@@ -76,7 +76,7 @@ function soldatregister() {
   const date = new Date();
   const [, day, month, year] = date.toGMTString().split(` `);
 
-  const solref = `<ref>Sök I soldatregistret. Accessed ${day} ${month} ${year}.\n::${ref}https://soldat.elektronikhuset.it/soldatregister/</ref>`;
+  const solref = `<ref>Sök I soldatregistret. Accessed ${day} ${month} ${year}.\n::${ref}\nhttps://soldat.elektronikhuset.it/soldatregister/</ref>`;
   return solref;
 }
 
