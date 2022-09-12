@@ -67,6 +67,20 @@ function deadbook() {
 }
 
 /**
+ * Soldatregister Function
+ * @returns The reference string
+ */
+function soldatregister() {
+  const ref = reftext.value.replaceAll(`\n`, `\n::`);
+
+  const date = new Date();
+  const [, day, month, year] = date.toGMTString().split(` `);
+
+  const solref = `<ref>Sök I soldatregistret. Accessed ${day} ${month} ${year}.\n::${ref}https://soldat.elektronikhuset.it/soldatregister/</ref>`;
+  return solref;
+}
+
+/**
  * Copy function when button is pressed. Copies directly to clipboard
  */
 function copy() {
@@ -84,7 +98,8 @@ function getRef() {
   output.value = refval.includes(`bildid:`) ? riksarkivet() :
     refval.includes(`AID:`) ? arkivdigital() :
       refval.includes(`bokf`) ? deadbook() :
-        errtext;
+        refval.includes(`egement`) ? soldatregister() :
+          errtext;
 }
 
 document.querySelector(`button`).addEventListener(`click`, copy);
