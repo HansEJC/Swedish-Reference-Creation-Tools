@@ -72,11 +72,17 @@ function deadbook() {
  */
 function soldatregister() {
   const ref = reftext.value.replaceAll(`\n`, `\n::`);
+  const [name, namn, , , antagen, avsked, , reg, rote, , sock] = reftext.value.split(`\n`);
+  const titleCase = (string) => string[0].toUpperCase() + string.slice(1).toLowerCase();
 
+  const namec = name.split(` `)[1];
+  const namnch = namn.split(` `)[1].length < 2 ? `${namec}` : `${namec} changed his name from ${namn.split(` `)[1]} to ${titleCase(name.split(` `)[0])} when he`;
+  const lowsock = titleCase(sock.split(` `)[1]);
+  const pretext = `${namnch} was in the ${reg.split(` `)[1]} regemente in ${rote.split(` `)[1]}, ${lowsock} from ${antagen.split(` `)[1]} to ${avsked.split(` `)[1]}.`
   const date = new Date();
   const [, day, month, year] = date.toGMTString().split(` `);
 
-  const solref = `<ref>Sök I soldatregistret. Accessed ${day} ${month} ${year}.\n::${ref}\nhttps://soldat.elektronikhuset.it/soldatregister/</ref>`;
+  const solref = `${pretext}\n<ref>Sök I soldatregistret. Accessed ${day} ${month} ${year}.\n::${ref}\nhttps://soldat.elektronikhuset.it/soldatregister/</ref>`;
   return solref;
 }
 
