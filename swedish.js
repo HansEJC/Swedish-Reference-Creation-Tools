@@ -87,6 +87,18 @@ function soldatregister() {
 }
 
 /**
+ * ProjectWise links
+ * @returns The improved link
+ */
+function projectwise() {
+  const doc = reftext.value.split('{').pop().split('}')[0];
+  const source = reftext.value.split('pw://').pop().split('/')[0];
+
+  const pwlink = `https://pwlink.bentley.com/link?ds=${source}&doc=${doc}`;
+  return pwlink;
+}
+
+/**
  * Copy function when button is pressed. Copies directly to clipboard
  */
 function copy() {
@@ -105,7 +117,8 @@ function getRef() {
     refval.includes(`AID:`) ? arkivdigital() :
       refval.includes(`bokf`) ? deadbook() :
         refval.includes(`egement`) ? soldatregister() :
-          errtext;
+          refval.includes(`pw://`) ? projectwise() :
+            errtext;
 }
 
 document.querySelector(`button`).addEventListener(`click`, copy);
